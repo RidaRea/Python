@@ -1,0 +1,36 @@
+import socket
+
+# Server configuration
+SERVER_IP = "0.0.0.0"  # Use your server's IP address
+SERVER_PORT = 12345
+
+# Create a server socket
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((SERVER_IP, SERVER_PORT))
+server_socket.listen(1)
+
+print(f"Server is listening on {SERVER_IP}:{SERVER_PORT}")
+
+while True:
+    # Wait for a client to connect
+    client_socket, client_address = server_socket.accept()
+    print(f"Connection from {client_address}")
+
+    # Receive the file name from the client
+    file_name = client_socket.recv(1024).decode()
+    print(f"Receiving file: {file_name}")
+
+    # Open the file and start sending its contents to the client
+    with open(file_name, "rb") as file:
+        data = file.read(1024)
+        while data:
+            client_socket.send(data)
+            data = file.read(1024)
+
+    print(f"File {file_name} sent successfully")
+
+    # Close the connection
+    client_socket.close()
+
+# Close the server socket
+server_socket.close()
