@@ -1,0 +1,11 @@
+import time
+
+print("You are being chased by a monster! Run for your life!")
+
+distance = 0
+while distance < 10:
+    print("Running...")
+    time.sleep(1)  # Simulate running for 1 second
+    distance += 1
+
+print("Phew! You escaped from the monster!"
